@@ -77,14 +77,19 @@ WHERE list_price > (SELECT AVG(list_price) FROM northwind.products);
 
 -- ---------------------------------------------------------------------------- 
 -- 9). Fetch & Label the Count of Current and Discontinued Products using
--- 	   the "CASE... WHEN" syntax to create a column named "availablity"
+-- 	   the "CASE... WHEN" syntax to create a column named "availablity"***
 --     that contains the values "discontinued" and "current". 
 -- ----------------------------------------------------------------------------
 UPDATE northwind.products SET discontinued = 1 WHERE id IN (95, 96, 97);
 
 -- TODO: Insert query here.
-SELECT COUNT(*) 
-FROM northwind.products AS P;
+SELECT CASE P.discontinued
+	WHEN 1 THEN "discontinued"
+	ELSE "current"
+END AS "availability",
+COUNT(*) AS "Number of Products"
+FROM northwind.products as P
+GROUP BY P.discontinued;
 
 UPDATE northwind.products SET discontinued = 0 WHERE id in (95, 96, 97);
 
@@ -108,9 +113,13 @@ WHERE P.list_price < 20.00
 GROUP BY P.category;
 
 -- ----------------------------------------------------------------------------
--- 12). Fetch the Number of Products per Category With Less Than 5 Units In Stock
+-- 12). Fetch the Number of Products per Category With Less Than 5 Units In Stock***
 -- ----------------------------------------------------------------------------
-SELECT COUNT(*) FROM northwind.products as P;
+SELECT P.category as "Category",
+		COUNT(*) as "Number of Products"
+FROM northwind.products as P
+GROUP BY P.category
+HAVING COUNT(*) < 5;
 
 -- ----------------------------------------------------------------------------
 -- 13). Fetch Products along with their Supplier Company & Address Info
