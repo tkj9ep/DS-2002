@@ -2,6 +2,7 @@
 -- TODO: Extract the appropriate data from the northwind database, and INSERT it into the Northwind_DW database.
 -- --------------------------------------------------------------------------------------------------------------
 
+
 -- ----------------------------------------------
 -- Populate dim_customers
 -- ----------------------------------------------
@@ -102,6 +103,21 @@ INSERT INTO `northwind_dw`.`dim_products`
 `minimum_reorder_quantity`,
 `category`)
 # TODO: Write a SELECT Statement to Populate the table;
+SELECT
+    `id`,
+    `product_code`,
+    `product_name`,
+    `standard_cost`,
+    `list_price`,
+    `reorder_level`,
+    `target_level`,
+    `quantity_per_unit`,
+    `discontinued`,
+    `minimum_reorder_quantity`,
+    `category`
+FROM `northwind`.`products`;
+
+
 
 -- ----------------------------------------------
 -- Validate that the Data was Inserted ----------
@@ -122,6 +138,17 @@ INSERT INTO `northwind_dw`.`dim_shippers`
 `state_province`,
 `zip_postal_code`,
 `country_region`)
+SELECT 
+	`id`,
+    `company`,
+    `address`,
+    `city`,
+    `state_province`,
+    `zip_postal_code`,
+    `country_region`
+FROM northwind.shippers;
+
+
 # TODO: Write a SELECT Statement to Populate the table;
 
 -- ----------------------------------------------
@@ -138,6 +165,7 @@ TRUNCATE TABLE `northwind_dw`.`fact_orders`;
 
 INSERT INTO `northwind_dw`.`fact_orders`
 (`order_id`,
+`order_detail_id`,
 `customer_id`,
 `employee_id`,
 `product_id`,
@@ -151,9 +179,48 @@ INSERT INTO `northwind_dw`.`fact_orders`
 `unit_price`,
 `discount`,
 `taxes`,
-`tax_rate`,
-`order_status`,
+`taxe_rate`,
+`orders_status`,
 `order_details_status`)
+SELECT
+    O.id AS order_id,
+	ODS.id AS order_detail_id,
+    O.customer_id,
+    O.employee_id,
+    OD.product_id,
+    O.shipper_id,
+    O.order_date,
+    O.paid_date,
+    O.shipped_date,
+	O.payment_type,
+	O.shipping_fee,
+    OD.quantity,
+    OD.unit_price,
+    OD.discount,
+    O.taxes,
+    O.tax_rate,
+    OS.id AS orders_status,
+    ODS.status_name AS order_details_status
+FROM northwind.orders AS O
+INNER JOIN northwind.orders_status AS OS
+ON O.status_id = OS.id
+RIGHT OUTER JOIN northwind.order_details AS OD
+ON O.id = OD.order_id
+INNER JOIN northwind.order_details_status AS ODS
+ON OD.status_id = ODS.id;
+
+
+-- SELECT * FROM northwind.orders AS O
+-- INNER JOIN northwind.orders_status AS OS
+-- ON O.status_id = OS.id
+-- RIGHT OUTER JOIN northwind.order_details AS OD
+-- ON O.id = OD.order_id
+-- INNER JOIN northwind.order_details_status AS ODS
+-- ON OD.status_id = ODS.id;
+
+
+
+
 
 /* 
 --------------------------------------------------------------------------------------------------
@@ -188,3 +255,8 @@ SELECT * FROM northwind_dw.fact_orders;
 -- LAB QUESTION: Author a SQL query that returns the total (sum) of the quantity and unit price
 -- for each customer (last name), sorted by the total unit price in descending order.
 -- --------------------------------------------------------------------------------------------------
+SELECT dc.last_name, SUM(fo.quantity * fo.unit_price) as `Total Cost`
+FROM northwind_dw.fact_orders AS fo
+INNER JOIN northwind_dw.dim_customers as dc
+ON fo.customer_id = dc.customer_id
+GROUP BY dc.last_name;

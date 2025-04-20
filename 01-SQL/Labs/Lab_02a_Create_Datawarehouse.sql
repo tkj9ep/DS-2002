@@ -83,7 +83,34 @@ CREATE TABLE `dim_products` (
 # TODO: CREATE the `dim_shippers` dimension table ----------
 # ----------------------------------------------------------
 # DROP TABLE `dim_shippers`;
-
+CREATE TABLE `dim_shippers` (
+  `shipper_key` int NOT NULL AUTO_INCREMENT,
+  `shipper_id` int NOT NULL,
+  `company` varchar(50) DEFAULT NULL,
+  `last_name` varchar(50) DEFAULT NULL,
+  `first_name` varchar(50) DEFAULT NULL,
+  `email_address` varchar(50) DEFAULT NULL,
+  `job_title` varchar(50) DEFAULT NULL,
+  `business_phone` varchar(25) DEFAULT NULL,
+  `home_phone` varchar(25) DEFAULT NULL,
+  `mobile_phone` varchar(25) DEFAULT NULL,
+  `fax_number` varchar(25) DEFAULT NULL,
+  `address` longtext,
+  `city` varchar(50) DEFAULT NULL,
+  `state_province` varchar(50) DEFAULT NULL,
+  `zip_postal_code` varchar(15) DEFAULT NULL,
+  `country_region` varchar(50) DEFAULT NULL,
+  `web_page` longtext,
+  `notes` longtext,
+  `attachments` longblob,
+  PRIMARY KEY (`shipper_key`),
+  KEY `city` (`city`),
+  KEY `company` (`company`),
+  KEY `first_name` (`first_name`),
+  KEY `last_name` (`last_name`),
+  KEY `zip_postal_code` (`zip_postal_code`),
+  KEY `state_province` (`state_province`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4;
 
 
 # ----------------------------------------------------------------------
@@ -91,4 +118,31 @@ CREATE TABLE `dim_products` (
 #       orders_status tables to create a new Fact Table in Northwind_DW.
 # To keep things simple, don't include purchase order or inventory info
 # ----------------------------------------------------------------------
-# DROP TABLE `fact_orders`;
+ #DROP TABLE `fact_orders`;
+CREATE TABLE `fact_orders` (
+  `fact_order_key` int NOT NULL AUTO_INCREMENT,
+  `order_id` INT NOT NULL,
+  `order_detail_id` int NOT NULL,
+  `employee_id` int DEFAULT NULL,
+  `customer_id` int DEFAULT NULL,
+  `shipper_id` INT DEFAULT NULL,
+  `product_id` int DEFAULT NULL,
+  `order_date` datetime DEFAULT NULL,
+  `date_allocated` datetime DEFAULT NULL,
+  `shipped_date` datetime DEFAULT NULL,
+  `paid_date` datetime DEFAULT NULL,
+  `quantity` decimal(18,4) NOT NULL DEFAULT '0.0000',
+  `unit_price` decimal(19,4) DEFAULT '0.0000',
+  `discount` double NOT NULL DEFAULT '0',
+  `shipping_fee` decimal(19,4) DEFAULT '0.0000',
+  `taxes` decimal(19,4) DEFAULT '0.0000',
+  `taxe_rate` double DEFAULT '0',
+  `payment_type` varchar(50) DEFAULT NULL,
+  `orders_status` tinyint DEFAULT '0',
+  `order_details_status` VARCHAR(50) DEFAULT NULL,
+  PRIMARY KEY (`fact_order_key`),
+  KEY `payment_type` (`payment_type`),
+  KEY `orders_status` (`orders_status`),
+  KEY `order_details_status` (`order_details_status`)
+) ENGINE=InnoDB AUTO_INCREMENT=82 DEFAULT CHARSET=utf8mb4;
+
