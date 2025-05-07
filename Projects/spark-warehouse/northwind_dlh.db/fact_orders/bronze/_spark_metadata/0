@@ -1,0 +1,2 @@
+v1
+{"path":"file:///C:/Users/tyler/dev/DS-2002/04-PySpark/spark-warehouse/northwind_dlh.db/fact_orders/bronze/part-00000-8064734a-f152-4fc8-b1c1-bc7368bb5bdd-c000.snappy.parquet","size":7811,"isDir":false,"modificationTime":1745113545894,"blockReplication":1,"blockSize":33554432,"action":"add"}

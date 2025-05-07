@@ -1,0 +1,4 @@
+v1
+{"path":"file:///C:/Users/tyler/dev/DS-2002/Projects/spark-warehouse/adventureworks_2.db/fact_table/bronze/part-00000-3ba007c6-8ada-45bb-ac4c-94b09c8bfedb-c000.snappy.parquet","timestamp":1746642347079,"batchId":0}
+{"path":"file:///C:/Users/tyler/dev/DS-2002/Projects/spark-warehouse/adventureworks_2.db/fact_table/bronze/part-00000-d1e43200-5c4d-4274-8c44-0b443ad14356-c000.snappy.parquet","timestamp":1746642348469,"batchId":0}
+{"path":"file:///C:/Users/tyler/dev/DS-2002/Projects/spark-warehouse/adventureworks_2.db/fact_table/bronze/part-00000-c830797a-1891-4358-be13-2c40a9fcaae3-c000.snappy.parquet","timestamp":1746642349800,"batchId":0}

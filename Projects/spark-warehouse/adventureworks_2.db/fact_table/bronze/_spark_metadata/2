@@ -1,0 +1,2 @@
+v1
+{"path":"file:///C:/Users/tyler/dev/DS-2002/Projects/spark-warehouse/adventureworks_2.db/fact_table/bronze/part-00000-c830797a-1891-4358-be13-2c40a9fcaae3-c000.snappy.parquet","size":703840,"isDir":false,"modificationTime":1746642349800,"blockReplication":1,"blockSize":33554432,"action":"add"}
